@@ -1,10 +1,10 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
 
-const Otsikko = (props) =>{
+const Otsikko = () =>{
     return (
         <div>
-            <h1>{props.kurssi.nimi}</h1>
+            <h1>Opetusohjelma :)</h1>
         </div>
     )
 }
@@ -12,9 +12,8 @@ const Otsikko = (props) =>{
 const Sisalto = (props) =>{
     return (
         <div>
-            <Osa nimi={props.kurssi.osat[0].nimi} tehtava={props.kurssi} />
-       { /* <Osa nimi={props.kurssi} tehtava={props.kurssi} />
-            <Osa nimi={props.kurssi} tehtava={props.kurssi} /> */}
+            <h3>{props.subTitle}</h3>
+            {props.tehtavia}
         </div>
     )
 }
@@ -22,14 +21,23 @@ const Yhteensa = (props) =>{
 
     return (
         <div>
-            <p>Tehtäviä yhteensä: {props.kurssi}.</p>
+            <p>Tehtäviä yhteensä: {props.sum}.</p>
         </div>
     )
 }
 const Osa = (props) =>{
     return (
         <div>
-            <p>Kurssi: {props.kurssi}, tehtäviä: {props.kurssi}</p>
+            <h3>{props.subTitle}</h3>
+            {props.tehtavia}
+            <p> Kurssissa tehtäviä yhteensä: {props.sum}</p>
+        </div>
+    )
+} 
+const Kurssi = (props) =>{
+    return(
+        <div>
+            <p>Tehtäviä yhteensä: {props.sum}</p>
         </div>
     )
 }
@@ -37,34 +45,91 @@ const Osa = (props) =>{
 
 
 const App = () => {
-    const kurssi = {
+    const kurssit = [
+    {
       nimi: 'Half Stack -sovelluskehitys',
+      id: 1,
       osat: [
         {
           nimi: 'Reactin perusteet',
-          tehtavia: 10
+          tehtavia: 10,
+          id: 1
         },
         {
           nimi: 'Tiedonvälitys propseilla',
-          tehtavia: 7
+          tehtavia: 7,
+          id: 2
         },
         {
           nimi: 'Komponenttien tila',
-          tehtavia: 14
-        }
+          tehtavia: 14,
+          id: 3
+        },
+        {
+          nimi: 'Redux',
+          tehtavia: 7,
+          id: 4
+        },
+      ]
+    },
+    {
+      nimi: 'Node.js',
+      id: 2,
+      osat: [
+        {
+          nimi: 'Routing',
+          tehtavia: 3,
+          id: 1
+        },
+        {
+          nimi: 'Middlewaret',
+          tehtavia: 7,
+          id: 2
+        },
+        {
+            nimi: 'Hello test',
+            tehtavia: 1,
+            id: 3
+          }
       ]
     }
+]
+    const subTitle = kurssit.map(function(x){
+        return x.nimi
+    })
+
+    const mappingFunction = p => 
+    <li key={p.id}>
+    Kurssi: <strong>{p.nimi}</strong> - tehtäviä: {p.tehtavia}
+    </li>
+
+    const halfStackSisalto = kurssit[0].osat.map(mappingFunction);
+    const nodeSisalto = kurssit[1].osat.map(mappingFunction);
+
+    const summa = (acc, currValue) => {
+        return acc + currValue;
+    }
+
+    const halfStackTehtavia = kurssit[0].osat.map(function(x){
+        return x.tehtavia
+    })
+     const halfStackSum = halfStackTehtavia.reduce(summa);
+
+    const nodeTehtavia = kurssit[1].osat.map(function(x){
+        return x.tehtavia
+    })
+
+    const nodeSum = nodeTehtavia.reduce(summa);
 
 
-    
     return (
-        <div>
-            <Otsikko kurssi={kurssi} />
-            <Sisalto kurssi={kurssi} /> 
-            <Yhteensa osat={kurssi} /> 
-        </div>
+      <div>
+        <Otsikko />
+        <Osa subTitle={subTitle[0]} tehtavia={halfStackSisalto} sum={halfStackSum} />
+        <Osa subTitle={subTitle[1]} tehtavia={nodeSisalto} sum={nodeSum} />
+      </div>
     )
-}
+  }
 
 
 ReactDOM.render(<App />, document.getElementById('root'))

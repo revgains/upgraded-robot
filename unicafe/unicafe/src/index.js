@@ -91,6 +91,7 @@ class App extends React.Component {
     clickNeutral = () => this.setState({neutraali: this.state.neutraali + 1, total: this.state.total +1})
 
     
+
     render() {
         return (
             <div>
