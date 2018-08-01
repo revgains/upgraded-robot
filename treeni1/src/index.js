@@ -9,14 +9,6 @@ const Otsikko = () =>{
     )
 }
 
-const Sisalto = (props) =>{
-    return (
-        <div>
-            <h3>{props.subTitle}</h3>
-            {props.tehtavia}
-        </div>
-    )
-}
 const Yhteensa = (props) =>{
 
     return (
@@ -70,6 +62,11 @@ const App = () => {
           tehtavia: 7,
           id: 4
         },
+        {
+          nimi: 'Testaus',
+          tehtavia: 3,
+          id: 5
+    }
       ]
     },
     {
